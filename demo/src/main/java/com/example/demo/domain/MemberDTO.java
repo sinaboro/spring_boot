@@ -16,6 +16,7 @@ create table member(
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class MemberDTO {
     private int memberId;
     private String name;
