@@ -45,6 +45,14 @@ public class MemberController {
 
         return "redirect:/member/list";
     }
+
+    //http://localhost:8080/member/delete/7
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable int id){
+        memberService.deleteById(id);
+        return "redirect:/member/list";
+    }
+
 }
 
 
