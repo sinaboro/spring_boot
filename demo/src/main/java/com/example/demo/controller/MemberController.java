@@ -2,13 +2,16 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.MemberDTO;
 import com.example.demo.service.MemberService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -24,4 +27,24 @@ public class MemberController {
         List<MemberDTO> getList = memberService.getList();
         model.addAttribute("list", getList);
     }
+
+    @GetMapping("/update/{id}")
+    public String updateForm(@PathVariable int id, Model model){
+        log.info("id : " + id);
+
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("member", memberDTO);
+
+        return "member/updateForm";
+    }
+
+    @PostMapping("/update")
+    public String updatePost(@ModelAttribute MemberDTO memberDTO){
+
+        memberService.update(memberDTO);
+
+        return "redirect:/member/list";
+    }
 }
+
+
