@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +29,40 @@ public class MemberController {
 
     }
 
+    @PostMapping("/new")
+    public String postNew(Member member){
+        memberService.insert(member);
+        return "redirect:/members/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int memberId){
+        memberService.delete(memberId);
+        return "redirect:/members/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") int memberId,
+                     Model model){
+        log.info("--------------edit-------------------------");
+        Member member = memberService.findById(memberId);
+        model.addAttribute("member", member);
+        return "/members/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editPost(@PathVariable("id") int memberId,
+                       Member member){
+        Member oldMember = memberService.findById(memberId);
+
+        oldMember.setName(member.getName());
+        oldMember.setAddress(member.getAddress());
+        oldMember.setPhone(member.getPhone());
+        oldMember.setAge(member.getAge());
+
+        memberService.update(oldMember);
+
+        return "redirect:/members/list";
+    }
 
 }
