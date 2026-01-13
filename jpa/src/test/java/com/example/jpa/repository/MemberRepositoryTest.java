@@ -68,11 +68,25 @@ class MemberRepositoryTest {
 
 //        Member member = memberRepository.findMemberByName("까미");
         List<Member> memberList =
-                memberRepository.findByAgeGreaterThanEqual(13);
+                memberRepository.findByAgeGreaterThanEqualOrderByAgeDesc(13);
 
         memberList.forEach(member->log.info(member));
         log.info("--------------------------------------------");
         log.info(memberList);
+    }
+
+    @Test
+    public void likeTest(){
+        List<Member> memberList = memberRepository.findByAddressLike("%안산%");
+        memberList.forEach(member -> log.info(member));
+    }
+
+    @Test
+    public void orderAge(){
+        //List<Member> memberList = memberRepository.findByAddressOrderByAgeAsc("안산시");
+        List<Member> memberList = memberRepository.findByAgeOrederByDesc2(13);
+        memberList.forEach(member->log.info(member));
+
     }
 
 }
