@@ -24,12 +24,19 @@ public class MemberController {
 
     @GetMapping("/list")
     public void getList(@PageableDefault(size=5, sort = "memberId",
-        direction = Sort.Direction.DESC) Pageable pageable, Model model){
+        direction = Sort.Direction.DESC) Pageable pageable, Model model ){
+
+        log.info("contrller pageable : ");
+        log.info(pageable);
 
         Page<Member> memberPage = memberService.findByAll(pageable);
 
         //1.  실제 데이터 리스트
         model.addAttribute("memberList", memberPage.getContent());
+
+        log.info("memberPage.hasPrevious() : " + memberPage.hasPrevious());
+        log.info("memberPage.hasNext() : " + memberPage.hasNext());
+        log.info("memberPage.getNumber() : " + memberPage.getNumber());
 
         //2. 페이지 정보(HTML에서 버튼 만들 때 사용)
         model.addAttribute("page", memberPage);
