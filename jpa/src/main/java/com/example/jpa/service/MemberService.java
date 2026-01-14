@@ -50,4 +50,19 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    //전체 데이타 조회(페이징 처리 포함)
+    public Page<Member> findByAll(Pageable pageable){
+
+        log.info("-----------------findByAll-------------------------");
+        log.info("pageable : " + pageable);
+
+        Page<Member> memberPage = memberRepository.findAll(pageable);
+
+        log.info("memberPage : " + memberPage);
+        log.info("-----------------end findByAll-------------------------");
+
+        return memberPage;
+    }
+
+
 }
