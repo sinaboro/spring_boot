@@ -1,7 +1,10 @@
 package com.example.jpa.controller;
 
 import com.example.jpa.domain.Member;
-import com.example.jpa.domain.service.MemberService;
+import com.example.jpa.dto.MemberDTO;
+import com.example.jpa.service.MemberService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -34,10 +37,6 @@ public class MemberController {
         //1.  실제 데이터 리스트
         model.addAttribute("memberList", memberPage.getContent());
 
-        log.info("memberPage.hasPrevious() : " + memberPage.hasPrevious());
-        log.info("memberPage.hasNext() : " + memberPage.hasNext());
-        log.info("memberPage.getNumber() : " + memberPage.getNumber());
-
         //2. 페이지 정보(HTML에서 버튼 만들 때 사용)
         model.addAttribute("page", memberPage);
     }
@@ -54,8 +53,9 @@ public class MemberController {
     }
 
     @PostMapping("/new")
-    public String postNew(Member member){
-        memberService.insert(member);
+    public String postNew(MemberDTO memberDTO){
+        log.info("memberDTO" + memberDTO);
+        memberService.insert(memberDTO);
         return "redirect:/members/list";
     }
 
@@ -68,23 +68,16 @@ public class MemberController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") int memberId,
                      Model model){
-        log.info("--------------edit-------------------------");
-        Member member = memberService.findById(memberId);
-        model.addAttribute("member", member);
+        MemberDTO memberDTO = memberService.findById(memberId);
+        model.addAttribute("member", memberDTO);
         return "/members/edit";
     }
 
     @PostMapping("/edit/{id}")
     public String editPost(@PathVariable("id") int memberId,
-                       Member member){
-        Member oldMember = memberService.findById(memberId);
+                       MemberDTO memberDTO){
 
-        oldMember.setName(member.getName());
-        oldMember.setAddress(member.getAddress());
-        oldMember.setPhone(member.getPhone());
-        oldMember.setAge(member.getAge());
-
-        memberService.update(oldMember);
+        memberService.update(memberId, memberDTO);
 
         return "redirect:/members/list";
     }

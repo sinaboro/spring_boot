@@ -4,13 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "member")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
+@Builder
 public class Member {
 
     @Id
@@ -25,4 +24,11 @@ public class Member {
     @Column(nullable = false, length = 200)
     private String address;
     private String phone;
+
+    public void updateInfo(String name, int age, String address, String phone) {
+        this.name = name;
+        this.age = age;
+        this.address = address;
+        this.phone = phone;
+    }
 }
