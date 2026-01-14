@@ -54,7 +54,6 @@ public class MemberController {
 
     @PostMapping("/new")
     public String postNew(MemberDTO memberDTO){
-        log.info("memberDTO" + memberDTO);
         memberService.insert(memberDTO);
         return "redirect:/members/list";
     }

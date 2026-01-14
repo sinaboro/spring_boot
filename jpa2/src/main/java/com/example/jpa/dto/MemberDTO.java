@@ -22,7 +22,7 @@ public class MemberDTO {
     private String address;
     private String phone;
 
-    //DTO -> Entitiy 변환 메소드
+    //MemberDTO -> Member 변환 메소드
     public Member toEntity(){
         return Member.builder()
 //                .memberId(this.memberId)
@@ -33,6 +33,7 @@ public class MemberDTO {
                 .build();
     }
 
+    //Member -> MemberDTO 변환 메소드
     public static MemberDTO from(Member member) {
         return MemberDTO.builder()
                 .memberId(member.getMemberId())
