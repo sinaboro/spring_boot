@@ -18,7 +18,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
 
         log.info("---------------securityFilterChain---------------------------");
-        return null;
+        return http.build();
     }
 
     @Bean

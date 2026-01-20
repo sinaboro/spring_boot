@@ -1,9 +1,11 @@
 package com.example.shop.service;
 
+import com.example.shop.dto.MemberFormDto;
 import com.example.shop.entity.Member;
 import com.example.shop.repository.MemberRepoistory;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

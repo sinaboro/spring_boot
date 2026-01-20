@@ -23,7 +23,7 @@ class MemberServiceTest {
 
     public Member createMember(){
         MemberFormDto memberFormDto = MemberFormDto.builder()
-                .email("test@email.com")
+                .email("test2@email.com")
                 .name("홍길동")
                 .address("서울시 마포구 합정동")
                 .password("1234")
