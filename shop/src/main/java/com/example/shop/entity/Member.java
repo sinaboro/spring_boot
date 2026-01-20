@@ -39,7 +39,7 @@ public class Member {
                     .email(memberFormDto.getEmail())
                     .password(passwordEncoder.encode(memberFormDto.getPassword())) //비밀 번호 암호화
                     .address(memberFormDto.getAddress())
-                    .role(Role.USER)
+                    .role(Role.ADMIN)
                     .build();
     }
 }
