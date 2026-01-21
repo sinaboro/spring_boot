@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Log4j2
-//@Transactional
+@Transactional
 class CartRepositoryTest {
 
     @Autowired
@@ -52,13 +52,14 @@ class CartRepositoryTest {
         Cart cart = new Cart();
         cart.setMember(member);
         cartRepository.save(cart);
-       // em.flush();
-        //em.clear();
+        em.flush();
+        em.clear();
 
         Cart savedCart = cartRepository.findById(cart.getId())
                 .orElseThrow(EntityNotFoundException::new);
-
+        log.info("-------- : " + savedCart.getMember().getId());
         assertEquals(savedCart.getMember().getId(), member.getId());
+        assertEquals(savedCart.getMember().getId(),member.getId());
     }
 }
 

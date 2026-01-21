@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,8 +30,8 @@ public class Order{
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;  //주문 상태
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderItem>  orderItem;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem>  orderItem = new ArrayList<>();
 
     private LocalDateTime regTime;     //주문 시간
     private LocalDateTime updateTime;  //수정 시간
