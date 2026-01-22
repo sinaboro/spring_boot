@@ -1,6 +1,6 @@
 package com.example.shop.controller;
 
-import com.example.shop.dto.MemberFormDto;
+import com.example.shop.dto.ItemFormDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ public class ItemController {
 
     @GetMapping(value = "/admin/item/new")
     public String itemForm(Model model){
-        model.addAttribute("itemFormDto", new MemberFormDto());
+        model.addAttribute("itemFormDto", new ItemFormDto());
         return "item/itemForm";
     }
 
