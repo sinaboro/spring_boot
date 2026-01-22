@@ -1,15 +1,13 @@
 package com.example.shop.service;
 
-import com.example.shop.dto.MemberFormDto;
 import com.example.shop.entity.Member;
-import com.example.shop.repository.MemberRepoistory;
+import com.example.shop.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +19,7 @@ import java.util.Optional;
 @Transactional
 public class MemberService implements UserDetailsService {
 
-    private final MemberRepoistory memberRepoistory;
+    private final MemberRepository memberRepoistory;
 
     public Member saveMember(Member member){
         Optional<Member> findMember = memberRepoistory.findByEmail(member.getEmail());

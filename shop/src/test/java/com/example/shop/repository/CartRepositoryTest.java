@@ -25,7 +25,7 @@ class CartRepositoryTest {
     CartRepository cartRepository;
 
     @Autowired
-    MemberRepoistory memberRepoistory;
+    MemberRepository memberRepoistory;
 
     @Autowired
     PasswordEncoder passwordEncoder;
