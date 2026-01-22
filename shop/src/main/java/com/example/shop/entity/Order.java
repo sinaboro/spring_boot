@@ -30,7 +30,9 @@ public class Order{
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;  //주문 상태
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order",
+                cascade = CascadeType.ALL,
+                orphanRemoval = true)
     private List<OrderItem>  orderItem = new ArrayList<>();
 
     private LocalDateTime regTime;     //주문 시간

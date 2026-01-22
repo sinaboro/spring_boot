@@ -67,12 +67,12 @@ class OrderRepositoryTest {
         orderRepository.saveAndFlush(order);
         em.clear();
 
-        /*
+
         Order savedOrder = orderRepository.findById(order.getId())
                 .orElseThrow(()-> new EntityNotFoundException());
 
         assertEquals(3, savedOrder.getOrderItem().size());
-         */
+
 
     }
 }
