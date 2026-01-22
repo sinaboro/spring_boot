@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "orders")
 @Getter@Setter
 @ToString
-public class Order{
+public class Order extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +35,5 @@ public class Order{
                 orphanRemoval = true,
                 fetch = FetchType.LAZY )
     private List<OrderItem>  orderItems = new ArrayList<>();
-
-    private LocalDateTime regTime;     //주문 시간
-    private LocalDateTime updateTime;  //수정 시간
-
 
 }
