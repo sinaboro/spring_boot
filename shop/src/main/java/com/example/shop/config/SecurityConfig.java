@@ -18,7 +18,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
         log.info("---------------securityFilterChain---------------------------");
         http
-//                .csrf(config -> config.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**","/js/**", "/img/**", "/images/**").permitAll()
                         .requestMatchers("/", "/members/**", "/item/**").permitAll()
