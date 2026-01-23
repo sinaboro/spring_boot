@@ -9,10 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -53,6 +50,19 @@ public class ItemController {
             return "item/itemForm";
         }
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/admin/item/{itemId}")
+    public String itmeDtl(@PathVariable Long itemId, Model model){
+        try{
+            ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+            model.addAttribute("itemFormDto", itemFormDto);
+        }catch(Exception e){
+            model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
+        }finally {
+            return "item/itemForm";
+        }
+       // return "item/itemForm";
     }
 
 }
