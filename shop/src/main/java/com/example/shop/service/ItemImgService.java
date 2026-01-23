@@ -2,6 +2,7 @@ package com.example.shop.service;
 
 import com.example.shop.entity.ItemImg;
 import com.example.shop.repository.ItemImgRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,5 +39,26 @@ public class ItemImgService {
         //상품 이미지 정보 저장 - 원본이름 , ssd저장된이름,
         itemImg.updateItemImg(oriImgName, imgName, imgUrl);
         itemImgRepository.save(itemImg);
+    }
+
+    //변경한 이미지가 있으면, 기존 이미지 삭제하고, 변경한 이미지를 저장
+    public void updateItemImg(Long itemImgId, MultipartFile itemImgFile) throws  Exception{
+
+        if(!itemImgFile.isEmpty()){
+            ItemImg savedItemImg = itemImgRepository.findById(itemImgId)
+                    .orElseThrow(EntityNotFoundException::new);
+
+            //기존 이미지 삭제
+            if(!StringUtils.isEmpty(savedItemImg.getImgName())){
+                fileService.deleteFile(itemImgLocation + "/" + savedItemImg.getImgName());
+            }
+
+            String oriImgName = itemImgFile.getOriginalFilename();
+            String imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
+            String imgUrl = "/images/item/" + imgName;
+
+            // 변경감지 -> 자동 저장
+            savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
+        }
     }
 }
