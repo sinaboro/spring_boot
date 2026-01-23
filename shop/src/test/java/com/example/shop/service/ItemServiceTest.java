@@ -70,10 +70,13 @@ class ItemServiceTest {
 
         List<ItemImg> itemImgList = itemImgRepository.findItemImgByItemIdOrderByIdAsc(itemId);
 
+        log.info(itemImgList);
+
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new EntityNotFoundException());
 
         assertEquals(itemImgList.get(0).getItem().getId(), item.getId());
+       // assertEquals(6, item.getId());
     }
 
 }

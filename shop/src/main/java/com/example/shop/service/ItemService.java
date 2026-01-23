@@ -1,15 +1,19 @@
 package com.example.shop.service;
 
 import com.example.shop.dto.ItemFormDto;
+import com.example.shop.dto.ItemImgDto;
 import com.example.shop.entity.Item;
 import com.example.shop.entity.ItemImg;
 import com.example.shop.repository.ItemImgRepository;
 import com.example.shop.repository.ItemRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,5 +46,30 @@ public class ItemService {
 
         return item.getId();
 
+    }
+
+    @Transactional(readOnly = true)
+    public ItemFormDto getItemDtl(Long itemId){
+
+        List<ItemImg> itemImgList = itemImgRepository.findItemImgByItemIdOrderByIdAsc(itemId);
+
+        //저장한 이미지 가져옴
+        List<ItemImgDto> itemImgDtoList = new ArrayList<>();
+
+        for(ItemImg itemImg: itemImgList){
+            ItemImgDto itemImgDto = ItemImgDto.of(itemImg);
+            itemImgDtoList.add(itemImgDto);
+        }
+
+        //저장된 상품정보 가져오기
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new EntityNotFoundException());
+
+
+        //itemImgDtoList + item  ---> itemFormDto
+        ItemFormDto itemFormDto = ItemFormDto.of(item);
+        itemFormDto.setItemImgDtoList(itemImgDtoList);
+
+        return itemFormDto;
     }
 }
