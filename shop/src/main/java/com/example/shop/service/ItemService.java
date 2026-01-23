@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -73,5 +74,22 @@ public class ItemService {
         return itemFormDto;
     }
 
+    public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception{
+
+        //상품 수정
+        Item item = itemRepository.findById(itemFormDto.getId())
+                .orElseThrow(EntityNotFoundException::new);
+
+        item.updateItem(itemFormDto);
+
+        //이미지 수정 파트
+        List<Long> itemImgIds = itemFormDto.getItemImgIds();
+
+        for(int i=0; i<itemImgFileList.size(); i++){
+            itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
+        }
+
+        return item.getId();
+    }
 
 }
