@@ -54,7 +54,8 @@ public class ItemImgService {
             }
 
             String oriImgName = itemImgFile.getOriginalFilename();
-            String imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
+            String imgName = fileService.uploadFile(itemImgLocation, oriImgName,
+                                    itemImgFile.getBytes());
             String imgUrl = "/images/item/" + imgName;
 
             // 변경감지 -> 자동 저장
