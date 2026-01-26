@@ -106,6 +106,10 @@ public class ItemController {
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 5);
 
+        log.info("-------------");
+        log.info(items.getNumber());
+        log.info(items.getTotalPages());
+
         return "item/itemMng";
     }
 
