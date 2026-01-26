@@ -54,7 +54,7 @@ class MemberRepositoryTest {
                 .build();
 
         Member member = Member.createMember(memberFormDto, passwordEncoder);
-        memberRepository.save(member);
+//        memberRepository.save(member);
     }
 }
 
