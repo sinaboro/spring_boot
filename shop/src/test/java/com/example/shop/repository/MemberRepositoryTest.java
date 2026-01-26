@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Log4j2
+@Transactional
 class MemberRepositoryTest {
 
     @Autowired
@@ -47,14 +49,14 @@ class MemberRepositoryTest {
     @Test
     public void createMember(){
         MemberFormDto memberFormDto  = MemberFormDto.builder()
-                .email("user@user.com")
+                .email("user" +System.nanoTime()+ "+@user.com")
                 .name("강산")
                 .address("서울시 천호동")
                 .password("1234")
                 .build();
 
         Member member = Member.createMember(memberFormDto, passwordEncoder);
-//        memberRepository.save(member);
+        memberRepository.save(member);
     }
 }
 
