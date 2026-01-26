@@ -99,7 +99,7 @@ public class ItemController {
                              @PathVariable("page")Optional<Integer> page,
                              Model model){
         //전달받은 page가있으면 그 값을 사용하고 없으면 0, 페이지당 3개 상품 가져오기
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 4);
 
         Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
         model.addAttribute("items", items);

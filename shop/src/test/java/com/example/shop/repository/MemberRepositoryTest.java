@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Log4j2
-@Transactional
+//@Transactional
 class MemberRepositoryTest {
 
     @Autowired
@@ -50,7 +50,7 @@ class MemberRepositoryTest {
     public void createMember(){
         MemberFormDto memberFormDto  = MemberFormDto.builder()
                 //.email("user" +System.nanoTime()+ "+@user.com")
-                .email("user@user.com")
+                .email("user2@user.com")
                 .name("강산")
                 .address("서울시 천호동")
                 .password("1234")
