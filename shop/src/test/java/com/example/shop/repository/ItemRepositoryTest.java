@@ -257,7 +257,7 @@ class ItemRepositoryTest {
             booleanBuilder.and(item.itemSellStatus.eq(ItemSellStatus.SELL));
         }
 
-        Pageable pageable = PageRequest.of(0, 5);
+        Pageable pageable = PageRequest.of(1, 5);
 
         Page<Item> itemPageingResult =
                 itemRepository.findAll(booleanBuilder, pageable);
