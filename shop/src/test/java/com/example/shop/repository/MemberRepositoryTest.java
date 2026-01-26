@@ -49,7 +49,8 @@ class MemberRepositoryTest {
     @Test
     public void createMember(){
         MemberFormDto memberFormDto  = MemberFormDto.builder()
-                .email("user" +System.nanoTime()+ "+@user.com")
+                //.email("user" +System.nanoTime()+ "+@user.com")
+                .email("user@user.com")
                 .name("강산")
                 .address("서울시 천호동")
                 .password("1234")

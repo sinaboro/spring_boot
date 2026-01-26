@@ -16,11 +16,11 @@ import org.thymeleaf.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ItemRepositoryCutomImpl implements ItemRepositoryCustom{
+public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
     private JPAQueryFactory queryFactory;
 
-    public ItemRepositoryCutomImpl(EntityManager em){
+    public ItemRepositoryCustomImpl(EntityManager em){
         this.queryFactory = new JPAQueryFactory(em);
     }
 
@@ -83,7 +83,7 @@ public class ItemRepositoryCutomImpl implements ItemRepositoryCustom{
 
         // 페이징된 내용 조회
         List<Item> list = queryFactory
-                .selectFrom(item)
+                .selectFrom(QItem.item)
                 .where(cond1, cond2, cond3)
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
@@ -93,6 +93,7 @@ public class ItemRepositoryCutomImpl implements ItemRepositoryCustom{
         // 전체 조건 맞는 건수 조회
         Long total = queryFactory
                 .select(item.count())
+                .from(item)
                 .where(cond1, cond2, cond3)
                 .fetchOne();
 
