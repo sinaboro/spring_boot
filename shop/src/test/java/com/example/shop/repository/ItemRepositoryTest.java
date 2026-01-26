@@ -3,6 +3,7 @@ package com.example.shop.repository;
 import com.example.shop.constant.ItemSellStatus;
 import com.example.shop.entity.Item;
 import com.example.shop.entity.QItem;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
@@ -15,9 +16,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -232,4 +237,38 @@ class ItemRepositoryTest {
             itemRepository.save(item);
         }
     }
+
+    @Test
+    @DisplayName("조건 맞는 데이타 조회")
+    public void queryDslTest4(){
+        this.queryDslTest2();
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QItem item  = QItem.item;
+
+        String itemDetail = "테스트 상품 상세 설명";
+        int price = 10003;
+        String itemSellStat = "SOLD_OUT";
+
+        booleanBuilder.and(item.itemDetail.like("%"  + itemDetail +"%"));
+        booleanBuilder.and(item.price.gt(price));
+
+        if(StringUtils.equals(itemSellStat, ItemSellStatus.SELL)){
+            booleanBuilder.and(item.itemSellStatus.eq(ItemSellStatus.SELL));
+        }
+
+        Pageable pageable = PageRequest.of(0, 5);
+
+        Page<Item> itemPageingResult =
+                itemRepository.findAll(booleanBuilder, pageable);
+
+        log.info("total elemments : " + itemPageingResult.getTotalElements());
+
+        List<Item> list = itemPageingResult.getContent();
+
+        list.forEach( i-> log.info(i));
+
+
+    }
+
 }
