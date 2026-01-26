@@ -147,12 +147,17 @@ class ItemRepositoryTest {
         JPQLQueryFactory queryFactory = new JPAQueryFactory(em);
         QItem qItem = QItem.item;
 
+        int page = 1;
+        int size = 3;
+
         JPQLQuery<Item> query = queryFactory.selectFrom(qItem)
                 .where(
-                        qItem.itemSellStatus.eq(ItemSellStatus.SOLD_OUT)
+                        qItem.itemSellStatus.eq(ItemSellStatus.SELL)
                                 .or(qItem.itemNm.like("%상품8%"))
                 )
-                .orderBy(qItem.id.desc());
+                .orderBy(qItem.id.desc())
+                .offset(page * size) //몇개 건너뛸지
+                .limit(size);  //몇개 가져올지
 
 
         List<Item> list = query.fetch();
