@@ -3,6 +3,7 @@ package com.example.shop.repository;
 import com.example.shop.constant.ItemSellStatus;
 import com.example.shop.entity.Item;
 import com.example.shop.entity.QItem;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -166,8 +167,44 @@ class ItemRepositoryTest {
 
         long count = query.fetchCount();
         log.info("count : " + count);
-
     }
+
+    @Test
+    @DisplayName("Querydsl 조회 테스트3")
+    public void queryDslTest3() {
+        this.createItemList();
+
+        JPQLQueryFactory queryFactory = new JPAQueryFactory(em);
+        QItem qItem = QItem.item;
+
+        int page = 1;
+        int size = 3;
+
+        //where 조건
+        BooleanExpression conf =
+                qItem.itemSellStatus.eq(ItemSellStatus.SELL)
+                        .or(qItem.itemNm.like("%상품8%"));
+
+        //조건 맞는 전체 데이타 가져오기
+        List<Item> list = queryFactory.selectFrom(qItem)
+                .where(conf)
+                .orderBy(qItem.price.desc())
+                .offset(page * size)
+                .limit(size)
+                .fetch();
+
+        //조건 맞는 데이터 갯수
+        long count = queryFactory
+                .select(qItem.count())
+                .from(qItem)
+                .where(conf)
+                .fetchCount();
+
+        list.forEach(item->log.info(item));
+
+        log.info("count : " + count);
+    }
+
 
 
     public void createItemList2(){
