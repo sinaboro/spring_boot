@@ -119,6 +119,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
+        /*
         QueryResults<MainItemDto> results = queryFactory
                 .select(
                         new QMainItemDto(
@@ -140,7 +141,43 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
         results.getResults();
         results.getTotal();
+        */
 
-        return null;
+        // 페이징된 내용 조회
+        List<MainItemDto> list = queryFactory
+                .select(
+                        new QMainItemDto(
+                                item.id,
+                                item.itemNm,
+                                item.itemDetail,
+                                itemImg.imgUrl,
+                                item.price
+                        )
+                )
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(itemImg.repimgYn.eq("Y"))
+                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        // 전체 조건 맞는 건수 조회
+        Long total = queryFactory
+                .select(
+                       item.count()
+                )
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(itemImg.repimgYn.eq("Y"))
+                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchOne();
+
+
+        return new PageImpl<>(list, pageable, total);
     }
 }
