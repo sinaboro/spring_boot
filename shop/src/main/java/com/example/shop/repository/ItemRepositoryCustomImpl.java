@@ -8,6 +8,7 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.thymeleaf.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Log4j2
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
     private JPAQueryFactory queryFactory;
@@ -96,7 +98,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                 .from(item)
                 .where(cond1, cond2, cond3)
                 .fetchOne();
-
 
         return new PageImpl<>(list, pageable,  total == null ? 0 : total);
     }
