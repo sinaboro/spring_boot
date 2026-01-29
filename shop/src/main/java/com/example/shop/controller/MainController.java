@@ -30,6 +30,12 @@ public class MainController {
 
         Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
 
+        log.info("------main-------------");
+        log.info(items.getContent());
+        log.info(items.getTotalElements());
+        log.info(items.getTotalPages());
+        log.info(items.getNumber());
+
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 5);

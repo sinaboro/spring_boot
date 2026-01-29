@@ -174,11 +174,13 @@
                 <h5>결제 금액</h5>
                 <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
             </div>
-            <div th:if="${item.itemSellStatus == T(com.example.shop.constant.ItemSellStatus).SELL}" class="text-right">
+            <!--<td th:text="${item.itemSellStatus.name() == 'SELL' ? '판매중' : '품절'}"></td>-->
+            <div th:if="${item.itemSellStatus.name() == 'SELL'}" class="text-right">
                 <button type="button" class="btn btn-light border border-primary btn-lg" onclick="addCart()">장바구니 담기</button>
                 <button type="button" class="btn btn-primary btn-lg" onclick="order()">주문하기</button>
             </div>
-            <div th:unless="${item.itemSellStatus == T(com.example.shop.constant.ItemSellStatus).SELL}" class="text-right">
+            <!--<div th:unless="${item.itemSellStatus == T(com.example.shop.constant.ItemSellStatus).SELL}" class="text-right">-->
+            <div th:if="${item.itemSellStatus.name() == 'SOLD_OUT'}" class="text-right">
                 <button type="button" class="btn btn-danger btn-lg">품절</button>
             </div>
         </div>
