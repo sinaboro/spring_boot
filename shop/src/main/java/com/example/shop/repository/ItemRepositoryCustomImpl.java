@@ -69,6 +69,11 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     @Override
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
 
+        log.info("-----------------getAdminItemPage----------------------------");
+        log.info( regDtsAfter(itemSearchDto.getSearchDateType()));
+        log.info(searchSellStatusEq(itemSearchDto.getSearchSellStatus()));
+        log.info(searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery()));
+
        /*
         QueryResults<Item> results = queryFactory.selectFrom(QItem.item)
                 .where(
@@ -85,6 +90,12 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         BooleanExpression cond1 = regDtsAfter(itemSearchDto.getSearchDateType());
         BooleanExpression cond2 = searchSellStatusEq(itemSearchDto.getSearchSellStatus());
         BooleanExpression cond3 = searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery());
+
+        log.info("--------cond-----------");
+        log.info(cond1);
+        log.info(cond2);
+        log.info(cond3);
+
 
         QItem item = QItem.item;
 

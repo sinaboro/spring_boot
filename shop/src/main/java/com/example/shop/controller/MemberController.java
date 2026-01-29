@@ -10,10 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,7 +39,7 @@ public class MemberController {
     }
 
     @PostMapping(value = "/new")
-    public String MemberForm(@Valid MemberFormDto memberFormDto,
+    public String MemberForm(@Valid @ModelAttribute("memberFormDto") MemberFormDto memberFormDto,
                              BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors()){
@@ -51,7 +48,7 @@ public class MemberController {
 
         try {
             Member member = Member.createMember(memberFormDto, passwordEncoder);
-            memberService.saveMember(member);
+            Member savedMember = memberService.saveMember(member);
         }catch(IllegalStateException e){
             model.addAttribute("errorMessage", e.getMessage());
             return "member/memberForm";

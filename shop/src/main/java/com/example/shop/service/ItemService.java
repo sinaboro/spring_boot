@@ -32,7 +32,7 @@ public class ItemService {
 
     public Long savedItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws  Exception{
 
-        //상품등록
+        //상품등록 - : dto->entity
         Item item = itemFormDto.createItem();
         itemRepository.save(item);
 
@@ -58,7 +58,7 @@ public class ItemService {
 
         List<ItemImg> itemImgList = itemImgRepository.findItemImgByItemIdOrderByIdAsc(itemId);
 
-        //저장한 이미지 가져옴
+        // ItemImg있는 것을 화면상 보여주기 위해서 ItemImgDto변환
         List<ItemImgDto> itemImgDtoList = new ArrayList<>();
 
         for(ItemImg itemImg: itemImgList){
@@ -75,16 +75,21 @@ public class ItemService {
         ItemFormDto itemFormDto = ItemFormDto.of(item);
         itemFormDto.setItemImgDtoList(itemImgDtoList);
 
+        log.info("itemFormDto : " + itemFormDto);
+
         return itemFormDto;
     }
 
     public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception{
 
-        //상품 수정
+        //상품 조회  - Item(수정전)
         Item item = itemRepository.findById(itemFormDto.getId())
                 .orElseThrow(EntityNotFoundException::new);
 
+        // 상품 수정  - Item(수정후)
         item.updateItem(itemFormDto);
+
+        log.info("-------------item update-----------------------");
 
         //이미지 수정 파트
         List<Long> itemImgIds = itemFormDto.getItemImgIds();
@@ -98,6 +103,7 @@ public class ItemService {
 
     @Transactional(readOnly = true)
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+
         return itemRepository.getAdminItemPage(itemSearchDto, pageable);
     }
 

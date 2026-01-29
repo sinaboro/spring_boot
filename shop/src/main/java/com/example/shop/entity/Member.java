@@ -38,7 +38,7 @@ public class Member extends  BaseEntity{
                     .email(memberFormDto.getEmail())
                     .password(passwordEncoder.encode(memberFormDto.getPassword())) //비밀 번호 암호화
                     .address(memberFormDto.getAddress())
-                    .role(Role.ADMIN)
+                    .role(Role.USER)
                     .build();
     }
 }

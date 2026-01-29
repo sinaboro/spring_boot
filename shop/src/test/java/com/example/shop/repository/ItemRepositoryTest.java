@@ -66,8 +66,11 @@ class ItemRepositoryTest {
                 item.setItemSellStatus(ItemSellStatus.SELL);
             else
                 item.setItemSellStatus(ItemSellStatus.SOLD_OUT);
-            item.setStockNumber(100); item.setRegTime(LocalDateTime.now());
+
+            item.setStockNumber(100);
+            item.setRegTime(LocalDateTime.now());
             item.setUpdateTime(LocalDateTime.now());
+
             Item savedItem = itemRepository.save(item);
         }
     }
@@ -86,7 +89,8 @@ class ItemRepositoryTest {
     @DisplayName("상품명, 상품상세설명 or 테스트")
     public void findByItemNmOrItemDetailTest(){
         this.createItemList();
-        List<Item> itemList = itemRepository.findByItemNmOrItemDetail("테스트 상품1", "테스트 상품 상세 설명5");
+        List<Item> itemList =
+                itemRepository.findByItemNmOrItemDetail("테스트 상품1", "테스트 상품 상세 설명5");
         for(Item item : itemList){
             System.out.println(item.toString());
         }
@@ -131,11 +135,32 @@ class ItemRepositoryTest {
 
         QItem qItem = QItem.item;
 
+        /*
+        //select * from item
+        JPQLQuery<Item> query = queryFactory
+                .select(qItem)
+                .from(qItem)
+                .where(qItem.itemNm.like("%셔츠%"));
+
+        List<Item> list = query.fetch();
+
+        list.forEach(i -> log.info(i));
+        long count = query.fetchCount();
+        log.info(count);
+       */
+
+
+        /*
+        select * from item
+        where itemSellStatus = ItemSellStatus.SOLD_OUT and itemNm like '% 상품8 %';
+
+         */
         JPQLQuery<Item> query =
                 //queryFactory.select(qItem).from(qItem);
                 queryFactory.selectFrom(qItem)
-                        .where(qItem.itemSellStatus.eq(ItemSellStatus.SOLD_OUT))
-                        .where(qItem.itemNm.like("%" +"상품8"+ "%"));
+                        .where(qItem.itemSellStatus.eq(ItemSellStatus.SELL))
+                        .where(qItem.itemNm.like("%" +"상품"+ "%"))
+                        .orderBy(qItem.price.desc());
 
         List<Item> list = query.fetch();
         for(Item item : list)
@@ -143,6 +168,7 @@ class ItemRepositoryTest {
 
         long count = query.fetchCount();
         log.info("count : " + count);
+
     }
 
     @Test
@@ -153,15 +179,13 @@ class ItemRepositoryTest {
         JPQLQueryFactory queryFactory = new JPAQueryFactory(em);
         QItem qItem = QItem.item;
 
-        int page = 1;
-        int size = 3;
+        int page = 0;
+        int size = 5;
 
         JPQLQuery<Item> query = queryFactory.selectFrom(qItem)
-                .where(
-                        qItem.itemSellStatus.eq(ItemSellStatus.SELL)
-                                .or(qItem.itemNm.like("%상품8%"))
-                )
-                .orderBy(qItem.id.desc())
+                .where(qItem.itemSellStatus.eq(ItemSellStatus.SELL))
+                .where(qItem.itemNm.like("%" +"상품"+ "%"))
+                .orderBy(qItem.price.desc())
                 .offset(page * size) //몇개 건너뛸지
                 .limit(size);  //몇개 가져올지
 

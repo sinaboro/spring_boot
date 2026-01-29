@@ -33,7 +33,6 @@ dependencies {
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
 
-
     // Thymeleaf 레이아웃 기능 지원(공통 레이아웃, fragment 상속)
     implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '3.4.0'
 

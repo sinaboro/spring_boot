@@ -2,6 +2,7 @@ package com.example.shop.service;
 
 import com.example.shop.entity.ItemImg;
 import com.example.shop.repository.ItemImgRepository;
+import com.example.shop.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +18,7 @@ import org.thymeleaf.util.StringUtils;
 @Transactional  //?
 public class ItemImgService {
 
+    private final ItemRepository itemRepository;
     @Value("${itemImgLocation}")
     private String itemImgLocation;
 

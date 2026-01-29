@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -69,9 +70,11 @@ public class ThymeleafExController {
     }
 
     @GetMapping(value = "/ex05")
-    public String thymeleafExample05(Model model){
+    public String thymeleafExample05(Model model ){
         return "thymeleafEx/thymeleafEx05";
     }
+
+
 
     @GetMapping("/ex07")
     public String thymeleafExample07(Model model){
