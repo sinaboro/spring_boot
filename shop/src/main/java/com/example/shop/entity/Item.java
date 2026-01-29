@@ -2,6 +2,7 @@ package com.example.shop.entity;
 
 import com.example.shop.constant.ItemSellStatus;
 import com.example.shop.dto.ItemFormDto;
+import com.example.shop.exception.OutOfStockException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,5 +45,16 @@ public class Item extends  BaseEntity{
         this.stockNumber = itemFormDto.getStockNumber();
         this.itemDetail = itemFormDto.getItemDetail();
         this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
+
+    public void removeStock(int soockNumber){
+        int restStock = this.stockNumber - soockNumber;
+
+        if(restStock < 0){
+            throw new OutOfStockException("상품의 재고가 부족합니다. (현재 재고 수량: " + this.stockNumber + ")");
+        }
+
+        //남은 재고
+        this.stockNumber = restStock;
     }
 }
