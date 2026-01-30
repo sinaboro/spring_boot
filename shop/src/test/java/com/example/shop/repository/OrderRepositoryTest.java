@@ -15,9 +15,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,6 +34,9 @@ class OrderRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     @PersistenceContext
     EntityManager em;
@@ -72,7 +78,29 @@ class OrderRepositoryTest {
                 .orElseThrow(()-> new EntityNotFoundException());
 
         assertEquals(3, savedOrder.getOrderItems().size());
-
-
     }
+
+    /*
+     @Query(
+            "select o from Order o where o.member.email = :email " +
+                    "order by o.orderDate desc "
+    )
+    List<Order> findOrders(@Param("email") String email, Pageable pageable);
+     */
+
+    @Test
+    @DisplayName("회원 이메일로 주문 조회 및 페이징 처리")
+    public void findOrderByEmailWithPaging(){
+        //given
+        String email  = "bbb2@bbb.com";
+        Pageable pageable = PageRequest.of(0,2);
+
+        //when
+        List<Order> orders = orderRepository.findOrders(email, pageable);
+
+        //then
+        assertEquals(2, orders.size());
+        orders.forEach(o -> log.info(o));
+    }
+
 }
