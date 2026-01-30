@@ -55,10 +55,13 @@ public class OrderService {
     @Transactional(readOnly = true)
     public Page<OrderHistDto> getOrderList(String eamil, Pageable pageable){
 
+        // order - 3 ->memberId, orderId
         List<Order> orders = orderRepository.findOrders(eamil, pageable);
+
+        // count - 5
         Long totalCount = orderRepository.countOrder(eamil);
 
-        List<OrderHistDto> orderHistDtos = new ArrayList<>();
+        List<OrderHistDto> orderHistDtoList = new ArrayList<>();
 
         for(Order order : orders){
             OrderHistDto orderHistDto = new OrderHistDto(order);
@@ -75,9 +78,9 @@ public class OrderService {
                 orderHistDto.addOrderItemDto(orderItemDto);
             }
 
-            orderHistDtos.add(orderHistDto);
+            orderHistDtoList.add(orderHistDto);
         }
 
-        return new PageImpl<>(orderHistDtos, pageable, totalCount);
+        return new PageImpl<>(orderHistDtoList, pageable, totalCount);
     }
 }
