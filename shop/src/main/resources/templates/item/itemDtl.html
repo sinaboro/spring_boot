@@ -28,15 +28,16 @@
         }
 
         function order(){
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
+            let token = $("meta[name='_csrf']").attr("content");
+            let header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/order";
-            var paramData = {
+            let url = "/order";
+            let paramData = {
                 itemId : $("#itemId").val(),
                 count : $("#count").val()
             };
 
+            // JSON.stringify(): javascript -> json 변환
             var param = JSON.stringify(paramData);
 
             $.ajax({
@@ -51,7 +52,7 @@
                 dataType : "json",
                 cache   : false,
                 success  : function(result, status){
-                    alert("주문이 완료 되었습니다.");
+                    alert("result : " + result);
                     location.href='/';
                 },
                 error : function(jqXHR, status, error){
@@ -147,10 +148,12 @@
             <img th:src="${item.itemImgDtoList[0].imgUrl}" class = "rounded repImg" th:alt="${item.itemNm}">
         </div>
         <div class="wd50">
-            <span th:if="${item.itemSellStatus == T(com.example.shop.constant.ItemSellStatus).SELL}" class="badge badge-primary mgb-15">
+            <!--<span th:if="${item.itemSellStatus == T(com.example.shop.constant.ItemSellStatus).SELL}" class="badge badge-primary mgb-15">-->
+            <span th:if="${item.itemSellStatus.name() == 'SELL'}" class="badge badge-primary mgb-15">
                 판매중
             </span>
-            <span th:unless="${item.itemSellStatus == T(com.example.shop.constant.ItemSellStatus).SELL}" class="badge btn-danger mgb-15" >
+           <!--<span th:unless="${item.itemSellStatus == T(com.example.shop.constant.ItemSellStatus).SELL}" class="badge btn-danger mgb-15" >-->
+            <span th:if="${item.itemSellStatus.name() == 'SOLD_OUT'}" class="badge btn-danger mgb-15">
                 품절
             </span>
             <div class="h4" th:text="${item.itemNm}"></div>
@@ -183,7 +186,7 @@
             <div th:if="${item.itemSellStatus.name() == 'SOLD_OUT'}" class="text-right">
                 <button type="button" class="btn btn-danger btn-lg">품절</button>
             </div>
-        </div>
+        </span>
     </div>
 
     <div class="jumbotron jumbotron-fluid mgt-30">
