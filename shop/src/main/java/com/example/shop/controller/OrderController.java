@@ -78,6 +78,7 @@ public class OrderController {
         }
 
         orderService.cancelOrder(orderId);
+
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 
