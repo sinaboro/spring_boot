@@ -3,12 +3,14 @@ package com.example.shop.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Setter@Getter
 @Table(name = "order_item")
+@Log4j2
 public class OrderItem extends  BaseEntity {
 
     @Id
@@ -40,6 +42,11 @@ public class OrderItem extends  BaseEntity {
 
     public int getTotalPrice(){
         return orderPrice * count;
+    }
+
+    public void cancel(){
+        log.info("------cancel item----------");
+        this.getItem().addStock(count);
     }
 
 }
